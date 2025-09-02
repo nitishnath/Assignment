@@ -8,30 +8,30 @@ const TRIPS_PER_PAGE = 10;
 // It includes both the state and the actions that can be performed on it
 interface DashboardState {
   // State
-  trips: TripResponse[]; // Trips list
-  searchTerm: string; // Current search term
-  debouncedSearchTerm: string; // Debounced search term
-  selectedDestination: string; // Selected destination
-  destinations: string[]; // Destinations list
-  currentPage: number; // Current page number
-  totalPages: number; // Total number of pages
-  isLoading: boolean; // Loading state
-  isSearching: boolean; // Searching state
-  error: string | null; // Error state
-  debounceTimeoutRef: NodeJS.Timeout | null; // Debounce timeout reference
+  trips: TripResponse[];
+  searchTerm: string;
+  debouncedSearchTerm: string;
+  selectedDestination: string;
+  destinations: string[];
+  currentPage: number;
+  totalPages: number;
+  isLoading: boolean;
+  isSearching: boolean;
+  error: string | null;
+  debounceTimeoutRef: NodeJS.Timeout | null;
 
   // Actions
-  setTrips: (trips: TripResponse[]) => void; // Set trips list
-  setSearchTerm: (term: string) => void; // Set search term
-  setDebouncedSearchTerm: (term: string) => void; // Set debounced search term
-  setSelectedDestination: (destination: string) => void; // Set selected destination
-  setDestinations: (destinations: string[]) => void; // Set destinations list
-  setCurrentPage: (page: number) => void; // Set current page number
-  setTotalPages: (pages: number) => void; // Set total number of pages
-  setIsLoading: (loading: boolean) => void; // Set loading state
-  setIsSearching: (searching: boolean) => void; // Set searching state
-  setError: (error: string | null) => void; // Set error state
-  setDebounceTimeoutRef: (ref: NodeJS.Timeout | null) => void; // Set debounce timeout reference
+  setTrips: (trips: TripResponse[]) => void;
+  setSearchTerm: (term: string) => void;
+  setDebouncedSearchTerm: (term: string) => void;
+  setSelectedDestination: (destination: string) => void;
+  setDestinations: (destinations: string[]) => void;
+  setCurrentPage: (page: number) => void;
+  setTotalPages: (pages: number) => void;
+  setIsLoading: (loading: boolean) => void;
+  setIsSearching: (searching: boolean) => void;
+  setError: (error: string | null) => void;
+  setDebounceTimeoutRef: (ref: NodeJS.Timeout | null) => void;
 
   // Complex actions
   fetchTrips: () => Promise<void>; // Fetch trips
@@ -58,17 +58,17 @@ export const useDashboardStore = create<DashboardState>((set, get) => ({
  debounceTimeoutRef: null,
 
   // Simple setters
-  setTrips: (trips) => set({ trips }), // Set trips list
-  setSearchTerm: (searchTerm) => set({ searchTerm }), // Set search term
-  setDebouncedSearchTerm: (debouncedSearchTerm) => set({ debouncedSearchTerm }), // Set debounced search term
-  setSelectedDestination: (selectedDestination) => set({ selectedDestination }), // Set selected destination
-  setDestinations: (destinations) => set({ destinations }), // Set destinations list
-  setCurrentPage: (currentPage) => set({ currentPage }), // Set current page number
-  setTotalPages: (totalPages) => set({ totalPages }), // Set total number of pages
-  setIsLoading: (isLoading) => set({ isLoading }), // Set loading state
-  setIsSearching: (isSearching) => set({ isSearching }), // Set searching state
-  setError: (error) => set({ error }), // Set error state
-  setDebounceTimeoutRef: (debounceTimeoutRef) => set({ debounceTimeoutRef }), // Set debounce timeout reference
+  setTrips: (trips) => set({ trips }),
+  setSearchTerm: (searchTerm) => set({ searchTerm }),
+  setDebouncedSearchTerm: (debouncedSearchTerm) => set({ debouncedSearchTerm }),
+  setSelectedDestination: (selectedDestination) => set({ selectedDestination }),
+  setDestinations: (destinations) => set({ destinations }),
+  setCurrentPage: (currentPage) => set({ currentPage }),
+  setTotalPages: (totalPages) => set({ totalPages }),
+  setIsLoading: (isLoading) => set({ isLoading }),
+  setIsSearching: (isSearching) => set({ isSearching }),
+  setError: (error) => set({ error }),
+  setDebounceTimeoutRef: (debounceTimeoutRef) => set({ debounceTimeoutRef }),
 
   // This function fetches trips and extracts destinations
   fetchTrips: async () => {
