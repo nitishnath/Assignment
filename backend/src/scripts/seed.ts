@@ -127,40 +127,31 @@ const sampleTrips = [
 
 async function seedDatabase() {
   try {
-    console.log('🌱 Starting database seeding...');
+    console.log('Starting database seeding...');
     
     // Connect to database
     const isConnected = await connectDatabase();
     if (!isConnected) {
-      console.error('❌ Failed to connect to database');
+      console.error('Failed to connect to database');
       process.exit(1);
     }
     
-    console.log('✅ Connected to database');
-    
-    // Clear existing trips
-    const deleteResult = await Trip.deleteMany({});
-    console.log(`🗑️  Cleared ${deleteResult.deletedCount} existing trips`);
+    console.log('Connected to database');
     
     // Insert sample trips
     const insertedTrips = await Trip.insertMany(sampleTrips);
-    console.log(`✅ Successfully seeded ${insertedTrips.length} trips`);
+    console.log(`Successfully seeded ${insertedTrips.length} trips`);
     
-    // Display summary
-    console.log('\n📊 Seeding Summary:');
-    console.log(`   • Total trips: ${insertedTrips.length}`);
-    console.log(`   • Budget range: ₹${Math.min(...sampleTrips.map(t => t.budget)).toLocaleString()} - ₹${Math.max(...sampleTrips.map(t => t.budget)).toLocaleString()}`);
-    console.log(`   • Duration range: ${Math.min(...sampleTrips.map(t => t.days))} - ${Math.max(...sampleTrips.map(t => t.days))} days`);
     
-    console.log('\n🎉 Database seeding completed successfully!');
+    console.log('\nDatabase seeding completed successfully!');
     
   } catch (error) {
-    console.error('❌ Error seeding database:', error);
+    console.error('Error seeding database:', error);
     process.exit(1);
   } finally {
     // Close database connection
     await mongoose.connection.close();
-    console.log('🔌 Database connection closed');
+    console.log('Database connection closed');
     process.exit(0);
   }
 }

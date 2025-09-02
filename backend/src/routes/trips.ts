@@ -1,6 +1,6 @@
 import { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';
 import { Trip } from '../models/Trip';
-import { TripPlanSchema, CreateTripRequest, UpdateTripRequest, TripResponse, TripsListResponse } from '../types/trip';
+import { TripPlanSchema, TripResponse, TripsListResponse } from '../types/trip';
 import { z } from 'zod';
 
 // Query parameters schema for GET /trips
@@ -13,8 +13,6 @@ const TripsQuerySchema = z.object({
   search: z.string().optional()
 });
 
-type TripsQuery = z.infer<typeof TripsQuerySchema>;
-
 export async function tripRoutes(fastify: FastifyInstance) {
   // POST /api/trips - Create new trip
   fastify.post('/api/trips', async (request: FastifyRequest, reply: FastifyReply) => {
@@ -23,7 +21,8 @@ export async function tripRoutes(fastify: FastifyInstance) {
       
       const trip = new Trip(validatedData);
       const savedTrip = await trip.save();
-      
+    
+      // Convert ObjectId to string
       const response: TripResponse = {
         _id: (savedTrip._id as any).toString(),
         title: savedTrip.title,
@@ -48,19 +47,13 @@ export async function tripRoutes(fastify: FastifyInstance) {
   fastify.get('/api/trips', async (request: FastifyRequest, reply: FastifyReply) => {
     try {
       const query = TripsQuerySchema.parse(request.query);
-      const { page, limit, destination, minBudget, maxBudget, search } = query;
+      const { page, limit, destination, search } = query;
       
       // Build MongoDB filter
       const filter: any = {};
       
       if (destination) {
         filter.destination = { $regex: destination, $options: 'i' };
-      }
-      
-      if (minBudget !== undefined || maxBudget !== undefined) {
-        filter.budget = {};
-        if (minBudget !== undefined) filter.budget.$gte = minBudget;
-        if (maxBudget !== undefined) filter.budget.$lte = maxBudget;
       }
       
       if (search) {
@@ -72,6 +65,7 @@ export async function tripRoutes(fastify: FastifyInstance) {
       
       const skip = (page - 1) * limit;
       
+      // Execute the query
       const [trips, total] = await Promise.all([
         Trip.find(filter)
           .sort({ createdAt: -1 })
@@ -81,6 +75,7 @@ export async function tripRoutes(fastify: FastifyInstance) {
         Trip.countDocuments(filter)
       ]);
       
+      // Convert ObjectId to string
       const tripResponses: TripResponse[] = trips.map(trip => ({
         _id: (trip._id as any).toString(),
         title: trip.title,
@@ -90,6 +85,7 @@ export async function tripRoutes(fastify: FastifyInstance) {
         createdAt: trip.createdAt.toISOString()
       }));
       
+      // Construct response
       const response: TripsListResponse = {
         trips: tripResponses,
         total,
@@ -158,6 +154,7 @@ export async function tripRoutes(fastify: FastifyInstance) {
         return;
       }
       
+      // Convert ObjectId to string
       const response: TripResponse = {
         _id: (trip._id as any).toString(),
         title: trip.title,

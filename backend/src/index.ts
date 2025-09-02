@@ -55,8 +55,8 @@ const start = async () => {
   try {
     // Start the server
     await fastify.listen({ port: PORT, host: HOST });
-    console.log(`🚀 Server is running on http://${HOST}:${PORT}`);
-    console.log(`📊 Database status: ${isDatabaseConnected ? '✅ Connected' : '❌ Disconnected'}`);
+    console.log(`Server is running on http://${HOST}:${PORT}`);
+    console.log(`Database status: ${isDatabaseConnected ? 'Connected' : 'Disconnected'}`);
   } catch (err) {
     fastify.log.error(err);
     process.exit(1);

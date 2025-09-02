@@ -3,6 +3,7 @@ import { TripPlan } from '../types/trip';
 
 export interface TripDocument extends TripPlan, Document {}
 
+// Trip model
 const TripSchema: Schema = new Schema({
   title: {
     type: String,

@@ -21,6 +21,7 @@ export interface TripPlan {
 export type CreateTripRequest = z.infer<typeof TripPlanSchema>;
 export type UpdateTripRequest = Partial<CreateTripRequest>;
 
+// Response type for API
 export interface TripResponse {
   _id: string;
   title: string;
@@ -30,6 +31,7 @@ export interface TripResponse {
   createdAt: string;
 }
 
+// Response type for list of trips
 export interface TripsListResponse {
   trips: TripResponse[];
   total: number;
